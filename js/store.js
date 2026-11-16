@@ -65,7 +65,27 @@
       return estado().parejas
         .filter((p) => p.estado !== "rechazado")
         .sort((a, b) => a.created_at.localeCompare(b.created_at))
-        .map(({ id, nombre_equipo, club, foto_path, estado, created_at }) => ({ id, nombre_equipo, club, foto_url: foto_path, estado, created_at }));
+        .map(({ id, nombre_equipo, club, foto_path, estado, created_at, grupo, desempate }) => ({ id, nombre_equipo, club, foto_url: foto_path, estado, created_at, grupo: grupo || null, desempate: desempate || 0 }));
+    },
+    /* ---- torneo en vivo ---- */
+    async getPartidos() { return (estado().partidos || []).slice().sort((a, b) => a.orden - b.orden); },
+    async crearPartidos(rows) {
+      const s = estado(); s.partidos = s.partidos || [];
+      rows.forEach((r) => s.partidos.push({ pen_local: null, pen_visitante: null, goles_local: null, goles_visitante: null, ...r, id: crypto.randomUUID(), updated_at: new Date().toISOString() }));
+      guardar(s);
+    },
+    async actualizarPartido(id, patch) {
+      const s = estado(); const m = (s.partidos || []).find((x) => x.id === id);
+      if (!m) throw new Error("No existe ese partido.");
+      Object.assign(m, patch, { updated_at: new Date().toISOString() }); guardar(s); return m;
+    },
+    async borrarPartidos(fases) {
+      const s = estado(); s.partidos = (s.partidos || []).filter((m) => !fases.includes(m.fase));
+      if (fases.includes("grupos")) s.parejas.forEach((p) => { p.grupo = null; p.desempate = 0; });
+      guardar(s);
+    },
+    async asignarGrupos(mapa) {
+      const s = estado(); s.parejas.forEach((p) => { p.grupo = mapa[p.id] || null; }); guardar(s);
     },
     async registrar(d) {
       validar(d);
@@ -198,6 +218,31 @@
         const { data, error } = await sb.from("config").update({ ...cfg, updated_at: new Date().toISOString() }).eq("id", 1).select().single();
         if (error) err(error); return data;
       },
+      /* ---- torneo en vivo ---- */
+      async getPartidos() {
+        const { data, error } = await sb.from("partidos").select("*").order("orden"); if (error) err(error); return data;
+      },
+      async crearPartidos(rows) {
+        const { error } = await sb.from("partidos").insert(rows); if (error) err(error);
+      },
+      async actualizarPartido(id, patch) {
+        const { data, error } = await sb.from("partidos").update({ ...patch, updated_at: new Date().toISOString() }).eq("id", id).select().single();
+        if (error) err(error); return data;
+      },
+      async borrarPartidos(fases) {
+        const { error } = await sb.from("partidos").delete().in("fase", fases); if (error) err(error);
+        if (fases.includes("grupos")) {
+          const r = await sb.from("parejas").update({ grupo: null, desempate: 0 }).not("grupo", "is", null); if (r.error) err(r.error);
+        }
+      },
+      async asignarGrupos(mapa) {
+        const r0 = await sb.from("parejas").update({ grupo: null }).not("grupo", "is", null); if (r0.error) err(r0.error);
+        for (const g of ["A", "B", "C", "D"]) {
+          const ids = Object.keys(mapa).filter((id) => mapa[id] === g);
+          if (!ids.length) continue;
+          const { error } = await sb.from("parejas").update({ grupo: g }).in("id", ids); if (error) err(error);
+        }
+      },
       async urlComprobante(path) {
         if (!path) return null;
         const { data, error } = await sb.storage.from("comprobantes").createSignedUrl(path, 3600);
@@ -207,7 +252,9 @@
     };
   }
 
-  const usarSupabase = C.supabaseUrl && C.supabaseKey && window.supabase;
+  // ?demo=1 en la URL fuerza el modo demo (para practicar sin tocar los datos reales)
+  const forzarDemo = /[?&]demo=1\b/.test(location.search);
+  const usarSupabase = !forzarDemo && C.supabaseUrl && C.supabaseKey && window.supabase;
   window.Store = usarSupabase ? crearSupabase() : demo;
   window.Store.ACTIVOS = ACTIVOS;
   window.Store.soloDigitos = soloDigitos;

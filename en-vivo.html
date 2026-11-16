@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>En vivo · Torneo en Parejas Sabotage</title>
+<meta name="description" content="Resultados en vivo del 1er Torneo FIFA en Parejas de Sabotage: grupos, marcadores y cuadro final.">
+<meta property="og:title" content="EN VIVO · Torneo en Parejas Sabotage">
+<meta property="og:description" content="Sigue los grupos, marcadores y el cuadro final en tiempo real.">
+<meta property="og:image" content="assets/flyer-parejas.jpg">
+<meta name="theme-color" content="#09090b">
+<link rel="icon" href="assets/logo-sabotage.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;500;600&family=Oswald:wght@500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css?v=9">
+</head>
+<body class="live-page">
+<header class="nav">
+  <div class="wrap">
+    <a class="nav-logo" href="index.html" aria-label="Sabotage"><img src="assets/logo-sabotage.png" alt="Sabotage"></a>
+    <span class="live-dot" id="liveDot">EN VIVO</span>
+    <a class="btn btn-ghost btn-sm" href="index.html">Inscripciones</a>
+  </div>
+</header>
+
+<main>
+  <section class="live-hero">
+    <div class="wrap">
+      <div class="kicker">1er Torneo en Parejas · FC 27 · PS5</div>
+      <h1 class="h-section">Torneo <em>en vivo</em></h1>
+      <p class="lead" id="faseTxt">Cargando…</p>
+      <p class="hint" id="actualizado"></p>
+    </div>
+  </section>
+
+  <div class="wrap" id="cerrado" hidden>
+    <div class="empty-state"><b>El cuadro se publica el día del torneo</b>Domingo 29 de noviembre · 2:00 p.m. El sorteo de grupos se hace con todas las parejas presentes.<br><br><a class="btn btn-sm" href="index.html#inscripcion">Inscribir mi pareja</a></div>
+  </div>
+
+  <div class="wrap" id="vivo" hidden>
+    <div id="campeon"></div>
+
+    <h2 class="sub-h">Estaciones</h2>
+    <div class="stations-now" id="estaciones"></div>
+
+    <div class="ltabs" role="tablist">
+      <button class="tab on" data-tab="grupos" role="tab">Grupos</button>
+      <button class="tab" data-tab="cuadro" role="tab">Eliminatoria</button>
+      <button class="tab" data-tab="partidos" role="tab">Todos los partidos</button>
+    </div>
+    <div data-panel="grupos"><div class="gtables" id="grupos"></div></div>
+    <div data-panel="cuadro" hidden><div id="cuadro"></div></div>
+    <div data-panel="partidos" hidden>
+      <div class="bar" id="filtroPartidos">
+        <button class="tab on" data-f="todos">Todos</button><button class="tab" data-f="en_juego">En vivo</button><button class="tab" data-f="pendiente">Próximos</button><button class="tab" data-f="finalizado">Terminados</button>
+      </div>
+      <div class="mlist" id="partidos"></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="assets/logo-sabotage.png" alt="Sabotage">
+    <span>Se actualiza solo cada pocos segundos · No necesitas recargar</span>
+    <a href="index.html" style="color:var(--muted)">Volver a la página del torneo</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js?v=9"></script>
+<script src="js/store.js?v=9"></script>
+<script src="js/torneo.js?v=9"></script>
+<script src="js/torneo-ui.js?v=9"></script>
+<script src="js/envivo.js?v=9"></script>
+</body>
+</html>

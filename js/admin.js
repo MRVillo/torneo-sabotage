@@ -36,6 +36,7 @@
     $("#loginForm").hidden = true; $("#panel").hidden = false; $("#logout").hidden = false;
     $("#who").textContent = S.modo === "demo" ? "Modo demo" : u.email;
     cargar(); setInterval(cargar, 30000);
+    document.dispatchEvent(new CustomEvent("admin:entrar"));
   }
 
   /* ---------------- datos ---------------- */

@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;500;600&family=Oswald:wght@500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=7">
+<link rel="stylesheet" href="css/styles.css?v=9">
 <style>
   body { font-size: 15px; }
   .top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 18px 0; border-bottom: 1px solid var(--line); margin-bottom: 22px; }
@@ -81,6 +81,57 @@
 
   <!-- PANEL -->
   <div id="panel" hidden>
+    <div class="atabs">
+      <button class="tab on" type="button" data-atab="insc">Inscripciones</button>
+      <button class="tab" type="button" data-atab="torneo">Torneo en vivo</button>
+    </div>
+
+    <!-- ======== TORNEO EN VIVO ======== -->
+    <div id="tabTorneo" hidden>
+      <div class="tcard">
+        <div class="trow" style="justify-content:space-between">
+          <div>
+            <h3>Página en vivo</h3>
+            <p class="hint" style="margin:0">Link público de solo lectura: grupos, marcadores y cuadro. Se actualiza solo.</p>
+          </div>
+          <div class="trow">
+            <label class="toggle" style="min-width:220px"><span>Publicar en vivo</span><input type="checkbox" id="tPublicar"></label>
+            <a class="mini-btn" id="tLink" href="en-vivo.html" target="_blank" rel="noopener">Abrir página en vivo ↗</a>
+            <button class="mini-btn" id="tCopiar" type="button">Copiar link</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tcard" id="tSorteo"></div>
+
+      <div id="tTorneo" hidden>
+        <div class="bar" id="tSubtabs">
+          <button class="tab on" type="button" data-st="partidos">Partidos de grupos</button>
+          <button class="tab" type="button" data-st="tablas">Tablas</button>
+          <button class="tab" type="button" data-st="ko">Eliminatoria</button>
+        </div>
+        <div data-sp="partidos">
+          <div class="bar" id="tFiltro">
+            <button class="tab on" type="button" data-f="abiertos">Por jugar y en vivo</button>
+            <button class="tab" type="button" data-f="finalizado">Terminados</button>
+            <button class="tab" type="button" data-f="todos">Todos</button>
+          </div>
+          <div class="rows" id="tPartidos"></div>
+        </div>
+        <div data-sp="tablas" hidden>
+          <p class="hint">Desempate manual: úsalo solo si dos parejas siguen igualadas en puntos, diferencia de gol, goles a favor y resultado entre ellas (por ejemplo, tras una tanda de penaltis). El número más alto queda arriba.</p>
+          <div class="gtables" id="tTablas"></div>
+        </div>
+        <div data-sp="ko" hidden>
+          <div class="tcard" id="tKoCtrl"></div>
+          <div id="tKoCuadro"></div>
+          <div class="rows" id="tKoPartidos" style="margin-top:16px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== INSCRIPCIONES ======== -->
+    <div id="tabInsc">
     <div class="stats" id="stats"></div>
     <div class="cols">
       <form class="card cfg" id="cfgForm">
@@ -115,6 +166,7 @@
         <div class="rows" id="rows"></div>
       </div>
     </div>
+    </div>
   </div>
 </div>
 
@@ -122,8 +174,11 @@
 <div class="modal" id="modal"><div class="in"><img alt="Comprobante"><div class="form-actions" style="margin-top:10px"><a class="mini-btn" id="modalOpen" target="_blank" rel="noopener">Abrir en otra pestaña</a><button class="mini-btn" id="modalClose" type="button">Cerrar</button></div></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="config.js?v=7"></script>
-<script src="js/store.js?v=7"></script>
-<script src="js/admin.js?v=7"></script>
+<script src="config.js?v=9"></script>
+<script src="js/store.js?v=9"></script>
+<script src="js/torneo.js?v=9"></script>
+<script src="js/torneo-ui.js?v=9"></script>
+<script src="js/admin.js?v=9"></script>
+<script src="js/admin-torneo.js?v=9"></script>
 </body>
 </html>

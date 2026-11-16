@@ -169,3 +169,43 @@ drop policy if exists "admin lee comprobantes" on storage.objects;
 create policy "admin lee comprobantes" on storage.objects for select to authenticated using (bucket_id = 'comprobantes' and public.es_admin());
 drop policy if exists "admin borra imagenes" on storage.objects;
 create policy "admin borra imagenes" on storage.objects for delete to authenticated using (bucket_id in ('equipos','comprobantes') and public.es_admin());
+
+-- =====================================================================
+--  Torneo en vivo: grupos, partidos y marcadores
+-- =====================================================================
+alter table public.parejas add column if not exists grupo text check (grupo in ('A','B','C','D'));
+alter table public.parejas add column if not exists desempate int not null default 0;
+alter table public.config add column if not exists torneo_publicado boolean not null default false;
+
+create table if not exists public.partidos (
+  id uuid primary key default gen_random_uuid(),
+  fase text not null check (fase in ('grupos','cuartos','semis','tercer','final')),
+  codigo text,
+  grupo text check (grupo in ('A','B','C','D')),
+  jornada int,
+  orden int not null default 0,
+  estacion int check (estacion between 1 and 9),
+  local_id uuid references public.parejas(id) on delete set null,
+  visitante_id uuid references public.parejas(id) on delete set null,
+  goles_local int check (goles_local between 0 and 99),
+  goles_visitante int check (goles_visitante between 0 and 99),
+  pen_local int check (pen_local between 0 and 99),
+  pen_visitante int check (pen_visitante between 0 and 99),
+  estado text not null default 'pendiente' check (estado in ('pendiente','en_juego','finalizado')),
+  updated_at timestamptz not null default now()
+);
+create index if not exists partidos_orden on public.partidos (orden);
+alter table public.partidos enable row level security;
+drop policy if exists "partidos lectura publica" on public.partidos;
+create policy "partidos lectura publica" on public.partidos for select to anon, authenticated using (true);
+drop policy if exists "partidos admin escribe" on public.partidos;
+create policy "partidos admin escribe" on public.partidos for all to authenticated using (public.es_admin()) with check (public.es_admin());
+
+drop function if exists public.inscritos_publicos();
+create function public.inscritos_publicos()
+returns table (id uuid, nombre_equipo text, club text, foto_path text, estado text, created_at timestamptz, grupo text, desempate int)
+language sql stable security definer set search_path = '' as $$
+  select p.id, p.nombre_equipo, p.club, p.foto_path, p.estado, p.created_at, p.grupo, p.desempate
+  from public.parejas p where p.estado <> 'rechazado' order by p.created_at;
+$$;
+grant execute on function public.inscritos_publicos() to anon, authenticated;

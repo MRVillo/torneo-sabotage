@@ -51,3 +51,14 @@ En `admin.html` completa: **valor por pareja**, **cupos**, **número de Nequi y 
 python -m http.server 8080 --directory web
 ```
 Abre http://localhost:8080 (página) y http://localhost:8080/admin.html (panel).
+
+## Torneo en vivo (día del torneo)
+
+- **Página pública:** `en-vivo.html` (solo lectura, se actualiza sola cada 8 segundos). Muestra qué se juega en cada estación, las tablas de grupos, todos los partidos y el cuadro final.
+- **Panel → pestaña "Torneo en vivo":**
+  1. **Hacer sorteo:** reparte al azar las parejas confirmadas en 4 grupos y arma los 24 partidos repartidos en las 3 estaciones por turnos.
+  2. **Publicar en vivo:** activa la página pública (antes de eso muestra "se publica el día del torneo").
+  3. **Partidos de grupos:** ▶ Iniciar → escribir goles → Guardar marcador (se ve en vivo) → ✓ Finalizar. "Corregir" reabre un resultado.
+  4. **Tablas:** posiciones automáticas (puntos, diferencia de gol, goles a favor, resultado directo). El campo "Des." sirve para desempatar a mano tras penales.
+  5. **Eliminatoria:** "Generar eliminatoria" arma cuartos (1A-2B, 1B-2A, 1C-2D, 1D-2C). Al finalizar cada partido el ganador pasa solo a semis/final y los perdedores de semis al 3er lugar. Si empatan, pide penales.
+- **Practicar sin tocar datos reales:** abre `admin.html?demo=1` (clave demo en `config.js`) y `en-vivo.html?demo=1`.
