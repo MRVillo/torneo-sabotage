@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel del Torneo · Sabotage</title>
+<link rel="icon" href="assets/logo-sabotage.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;500;600&family=Oswald:wght@500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css?v=7">
+<style>
+  body { font-size: 15px; }
+  .top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 18px 0; border-bottom: 1px solid var(--line); margin-bottom: 22px; }
+  .top img { height: 42px; width: auto; }
+  .top h1 { font-family: var(--head); font-weight: 400; font-size: 28px; letter-spacing: .06em; margin: 0; }
+  .top .grow { flex: 1; }
+  .login { max-width: 420px; margin: 9vh auto; }
+  .stats { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin-bottom: 20px; }
+  .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+  .stat b { display: block; font-family: var(--display); font-weight: 400; font-size: 34px; line-height: 1; }
+  .stat span { font-family: var(--head); letter-spacing: .1em; color: var(--muted); font-size: 15px; }
+  .stat.gold b { color: var(--gold); } .stat.red b { color: #ff8a80; } .stat.blue b { color: #7cbcff; }
+  .cols { display: grid; gap: 20px; }
+  @media (min-width: 1100px) { .cols { grid-template-columns: 330px 1fr; align-items: start; } .cfg { position: sticky; top: 16px; } }
+  .cfg .fgrid { gap: 12px; }
+  .cfg .field label { font-size: 15px; }
+  .toggle { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; background: #0d0c10; border: 1px solid #34303a; border-radius: 10px; }
+  .toggle input { width: 22px; height: 22px; accent-color: var(--gold); }
+  .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
+  .tab { background: #0d0c10; border: 1px solid #34303a; border-radius: 99px; padding: 6px 14px; cursor: pointer; font-family: var(--head); font-size: 16px; letter-spacing: .06em; }
+  .tab.on { background: var(--gold); color: #111; border-color: var(--gold); }
+  .tab small { opacity: .7; margin-left: 4px; }
+  .bar .input { max-width: 260px; min-height: 40px; }
+  .rows { display: grid; gap: 10px; }
+  .row { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 12px; display: grid; gap: 12px; grid-template-columns: 64px 1fr; }
+  .row.alert { border-color: rgba(255, 59, 47, .6); }
+  .row .ph { width: 64px; height: 64px; border-radius: 10px; background: #1b181e center/contain no-repeat; background-origin: content-box; padding: 4px; display: grid; place-items: center; font-family: var(--display); color: rgba(255,194,26,.6); font-size: 22px; }
+  .row h4 { margin: 0; font-family: var(--head); font-weight: 400; font-size: 23px; letter-spacing: .03em; line-height: 1.1; }
+  .row .meta { color: var(--muted); font-size: 13.5px; margin-top: 2px; }
+  .row .meta b { color: #e9e3da; font-weight: 500; }
+  .row .acts { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  @media (min-width: 900px) { .row { grid-template-columns: 64px 1fr auto; align-items: center; } .row .acts { grid-column: auto; justify-content: flex-end; max-width: 460px; } }
+  .mini-btn { background: #0d0c10; border: 1px solid #3a343f; border-radius: 8px; padding: 6px 10px; cursor: pointer; font-size: 13.5px; text-decoration: none; color: var(--paper); white-space: nowrap; }
+  .mini-btn:hover { border-color: var(--gold); }
+  .mini-btn.ok { background: var(--gold); color: #111; border-color: var(--gold); font-weight: 600; }
+  .mini-btn.no { color: #ff8a80; }
+  .mini-btn.wa { color: #7ff0ac; }
+  .notes { width: 100%; grid-column: 1 / -1; min-height: 36px; padding: 6px 10px; font-size: 13.5px; border-radius: 8px; background: #0d0c10; border: 1px dashed #3a343f; }
+  .warn { color: #ff8a80; font-size: 12.5px; font-weight: 600; }
+  .toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); background: #222; border: 1px solid #444; padding: 10px 16px; border-radius: 10px; z-index: 300; display: none; max-width: calc(100% - 32px); }
+  .toast.on { display: block; }
+  .modal { position: fixed; inset: 0; background: rgba(0,0,0,.9); z-index: 250; display: none; place-items: center; padding: 16px; }
+  .modal.on { display: grid; }
+  .modal .in { background: var(--panel); border-radius: 16px; padding: 14px; max-width: 560px; width: 100%; max-height: 92vh; overflow: auto; }
+  .modal img { width: 100%; border-radius: 10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="index.html"><img src="assets/logo-sabotage.png" alt="Sabotage"></a>
+    <h1>Panel del torneo en parejas</h1>
+    <span class="grow"></span>
+    <span id="who" class="hint" style="margin:0"></span>
+    <button class="btn btn-ghost btn-sm" id="logout" hidden>Salir</button>
+  </div>
+
+  <!-- LOGIN -->
+  <form class="card login" id="loginForm" hidden>
+    <h3>Acceso organizadores</h3>
+    <p class="hint" id="loginHint">Ingresa con tu correo y contraseña de administrador.</p>
+    <div class="fgrid">
+      <div class="field" id="emailField"><label for="lEmail">Correo</label><input class="input" id="lEmail" type="email" autocomplete="username"></div>
+      <div class="field"><label for="lPass" id="passLbl">Contraseña</label><input class="input" id="lPass" type="password" autocomplete="current-password"></div>
+      <div class="form-msg" id="loginMsg"></div>
+      <button class="btn" type="submit">Entrar</button>
+    </div>
+  </form>
+
+  <!-- PANEL -->
+  <div id="panel" hidden>
+    <div class="stats" id="stats"></div>
+    <div class="cols">
+      <form class="card cfg" id="cfgForm">
+        <h3>Configuración</h3>
+        <p class="hint">Lo que cambies aquí se ve de inmediato en la página pública.</p>
+        <div class="fgrid">
+          <div class="field"><label for="cPrecio">Valor por pareja (COP) <small>vacío = por confirmar</small></label><input class="input" id="cPrecio" inputmode="numeric" placeholder="Ej: 40000"></div>
+          <div class="fgrid two">
+            <div class="field"><label for="cCupos">Cupos (parejas)</label><input class="input" id="cCupos" type="number" min="2" max="256"></div>
+            <div class="field"><label for="cHoras">Horas de reserva</label><input class="input" id="cHoras" type="number" min="1" max="240"></div>
+          </div>
+          <div class="field"><label for="cLimite">Fecha límite de inscripción</label><input class="input" id="cLimite" type="date"></div>
+          <label class="toggle"><span>Inscripciones abiertas</span><input type="checkbox" id="cAbiertas"></label>
+          <div class="fgrid two">
+            <div class="field"><label for="cMetodo">Medio de pago</label><input class="input" id="cMetodo" placeholder="Nequi"></div>
+            <div class="field"><label for="cNumero">Número</label><input class="input" id="cNumero" inputmode="numeric" placeholder="300 000 0000"></div>
+          </div>
+          <div class="field"><label for="cTitular">Titular de la cuenta</label><input class="input" id="cTitular" placeholder="Nombre"></div>
+          <div class="field"><label for="cDir">Dirección del bar</label><input class="input" id="cDir" placeholder="Sabotage Bar · Calle … · Montería"></div>
+          <div class="field"><label for="cMaps">Link de Google Maps</label><input class="input" id="cMaps" placeholder="https://maps.app.goo.gl/…"></div>
+          <button class="btn btn-gold" type="submit">Guardar cambios</button>
+        </div>
+      </form>
+
+      <div>
+        <div class="bar" id="tabs"></div>
+        <div class="bar">
+          <input class="input" id="buscar" placeholder="Buscar equipo, club, jugador o código">
+          <button class="mini-btn" id="exportar" type="button">Descargar CSV</button>
+          <button class="mini-btn" id="recargar" type="button">Actualizar</button>
+        </div>
+        <div class="rows" id="rows"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="modal" id="modal"><div class="in"><img alt="Comprobante"><div class="form-actions" style="margin-top:10px"><a class="mini-btn" id="modalOpen" target="_blank" rel="noopener">Abrir en otra pestaña</a><button class="mini-btn" id="modalClose" type="button">Cerrar</button></div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js?v=7"></script>
+<script src="js/store.js?v=7"></script>
+<script src="js/admin.js?v=7"></script>
+</body>
+</html>
