@@ -38,7 +38,7 @@
     const nombre = (d.nombre_equipo || "").trim();
     const club = (d.club || "").trim();
     if (nombre.length < 2 || nombre.length > 40) throw new Error("El nombre del equipo debe tener entre 2 y 40 caracteres.");
-    if (club.length < 2 || club.length > 40) throw new Error("Escribe el club o la selección favorita.");
+    if (club.length < 2 || club.length > 40) throw new Error("Escribe el club o la selección que van a usar.");
     if (/estrella|all.?star/i.test(club)) throw new Error("El Equipo de Estrellas no está permitido. Elige un club o una selección.");
     if ((d.jugador1 || "").trim().length < 3 || (d.jugador2 || "").trim().length < 3) throw new Error("Escribe el nombre de los dos jugadores.");
     if (soloDigitos(d.telefono).length < 10) throw new Error("El WhatsApp debe tener 10 dígitos.");

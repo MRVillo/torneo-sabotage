@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;500;600&family=Oswald:wght@500;600&family=Press+Start+2P&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=10">
+<link rel="stylesheet" href="css/styles.css?v=11">
 </head>
 <body>
 
@@ -110,7 +110,7 @@
         <h2 class="h-section" style="font-size:clamp(32px,5.4vw,52px)">Separa tu <em>cupo</em> en 4 pasos</h2>
       </div>
       <div class="steps reveal">
-        <div class="step"><h3>Inscribe tu dupla</h3><p>Llena el formulario con el nombre del equipo, el club o selección favorito, los dos jugadores y el logo del equipo.</p></div>
+        <div class="step"><h3>Inscribe tu dupla</h3><p>Llena el formulario con el nombre del equipo, el club o selección que van a usar, los dos jugadores y el logo del equipo.</p></div>
         <div class="step"><h3>Cupo reservado</h3><p>Recibes un código (ej. SB-4K2QX). Tu cupo queda apartado por <b id="horasReserva">48</b> horas mientras pagas.</p></div>
         <div class="step"><h3>Paga la inscripción</h3><p>Transfiere el valor por pareja y sube el comprobante aquí mismo o envíalo por WhatsApp con tu código.</p></div>
         <div class="step"><h3>¡Confirmados!</h3><p>La organización verifica el pago y tu pareja aparece como <b style="color:var(--gold)">Confirmada</b>. Si se llenan los cupos, entras a lista de espera.</p></div>
@@ -208,7 +208,7 @@
         <div id="formZone">
           <form class="card" id="regForm" novalidate>
             <h3>Inscripción de pareja</h3>
-            <p class="hint">Todos los campos son obligatorios salvo los que dicen opcional. Pueden jugar con cualquier club o selección (se pueden repetir y cambiar en cada partido). Solo no se permite el Equipo de Estrellas.</p>
+            <p class="hint">Todos los campos son obligatorios salvo los que dicen opcional. Elijan un club o una selección: varias parejas pueden usar el mismo, pero lo usan todo el torneo. No se permite el Equipo de Estrellas.</p>
             <div class="fgrid">
               <div class="fgrid two">
                 <div class="field">
@@ -216,7 +216,7 @@
                   <input class="input" id="fNombre" name="nombre_equipo" maxlength="40" placeholder="Ej: Los Parceros FC" autocomplete="off" required>
                 </div>
                 <div class="field">
-                  <label for="fClub">Club o selección favorito <small>(pueden cambiarlo cada partido)</small></label>
+                  <label for="fClub">Club o selección que van a usar <small>(todo el torneo)</small></label>
                   <input class="input" id="fClub" name="club" list="clubes" maxlength="40" placeholder="Ej: Arsenal, Brasil" autocomplete="off" required>
                   <datalist id="clubes"></datalist>
                 </div>
@@ -334,7 +334,7 @@
           <summary>Inscripción y parejas</summary>
           <div class="rbody"><ul>
             <li>2 jugadores fijos por pareja, sin suplentes. No se pueden cambiar una vez empiece el torneo.</li>
-            <li>Se puede jugar con cualquier club o selección y se pueden repetir (Arsenal vs Arsenal, Brasil vs FC Barcelona). La pareja puede cambiar de equipo en cada partido.</li>
+            <li>Cada pareja elige un club o una selección y juega con él todo el torneo; no se puede cambiar. Varias parejas pueden usar el mismo equipo (Arsenal vs Arsenal, Brasil vs FC Barcelona).</li>
             <li><b>No se permite el Equipo de Estrellas.</b></li>
             <li>Si falta un integrante, el compañero puede jugar solo 1 contra 2. Si faltan los dos: W.O. 3-0.</li>
             <li>La inscripción se cierra al completar los cupos o el día del torneo a la hora del sorteo.</li>
@@ -452,8 +452,8 @@
 <div class="lightbox" id="lightbox"><img alt=""></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="config.js?v=10"></script>
-<script src="js/store.js?v=10"></script>
-<script src="js/app.js?v=10"></script>
+<script src="config.js?v=11"></script>
+<script src="js/store.js?v=11"></script>
+<script src="js/app.js?v=11"></script>
 </body>
 </html>

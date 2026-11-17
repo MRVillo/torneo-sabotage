@@ -1,4 +1,5 @@
--- 17 nov 2026: los clubes y selecciones se pueden repetir; solo se prohíbe el Equipo de Estrellas.
+-- 17 nov 2026: varias parejas pueden usar el mismo club o selección (cada pareja lo usa todo el torneo);
+-- solo se prohíbe el Equipo de Estrellas.
 -- Correr una vez en Supabase → SQL Editor (o ya aplicado si dice "ya existe").
 
 drop index if exists public.parejas_club_unico;
