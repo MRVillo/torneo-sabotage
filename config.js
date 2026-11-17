@@ -38,6 +38,9 @@ window.SABOTAGE_CONFIG = {
     pago_titular: "",
   },
 
+  // Llave Bre-B (se muestra junto al Nequi en la sección de pago). Deja llave vacía para ocultarla.
+  pagoBreB: { llave: "@AAV619", entidad: "Nu", titular: "Aldair Arrieta" },
+
   // Foto real de una estación (opcional). Ej: "assets/estacion.jpg". Vacío = solo se muestra el diagrama.
   fotoEstacion: "",
 

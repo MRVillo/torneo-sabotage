@@ -112,7 +112,7 @@
       const foto = p.foto_path ? S.fotoUrl(p.foto_path) : null;
       const msgWa = p.estado === "confirmado"
         ? `¡Hola! Su pareja "${p.nombre_equipo}" quedó CONFIRMADA en el Torneo en Parejas Sabotage (código ${p.codigo}). Nos vemos el domingo 29 de nov a las 2:00 p.m. 🎮🔥`
-        : `¡Hola! Les escribimos del Torneo en Parejas Sabotage por la inscripción de "${p.nombre_equipo}" (código ${p.codigo}).${cfg.precio ? ` El valor es ${cop(cfg.precio)}${cfg.pago_numero ? ` a ${cfg.pago_metodo || "Nequi"} ${cfg.pago_numero}` : ""}.` : ""}`;
+        : `¡Hola! Les escribimos del Torneo en Parejas Sabotage por la inscripción de "${p.nombre_equipo}" (código ${p.codigo}).${cfg.precio ? ` El valor es ${cop(cfg.precio)}${cfg.pago_numero ? ` a ${cfg.pago_metodo || "Nequi"} ${cfg.pago_numero}` : ""}${(window.SABOTAGE_CONFIG.pagoBreB || {}).llave ? ` o a la llave Bre-B ${window.SABOTAGE_CONFIG.pagoBreB.llave}` : ""}.` : ""}`;
       const a = [];
       if (p.comprobante_path) a.push(`<button class="mini-btn" data-act="ver" data-id="${p.id}">Ver comprobante</button>`);
       if (p.estado !== "confirmado" && p.estado !== "rechazado") a.push(`<button class="mini-btn ok" data-act="confirmar" data-id="${p.id}">✓ Pago confirmado</button>`);

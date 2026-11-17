@@ -51,6 +51,16 @@
       $("#payHint").textContent = "El valor de la inscripción por pareja se anunciará pronto. Puedes separar tu cupo desde ya.";
       $("#payBox").hidden = true;
     }
+    const bre = (window.SABOTAGE_CONFIG || {}).pagoBreB || {};
+    const hayBre = !!(precio && bre.llave);
+    $("#payBreB").hidden = !hayBre;
+    if (hayBre) {
+      $("#breLlave").textContent = bre.llave;
+      $("#copyBre").dataset.copy = bre.llave;
+      $("#breEntidad").textContent = bre.entidad ? "· " + bre.entidad : "";
+      $("#breTitular").textContent = (bre.titular ? "A nombre de " + bre.titular + " · " : "") + "desde cualquier banco o billetera.";
+      if (!cfg.pago_numero) $("#payHint").textContent = `Valor por pareja: ${precio}. Transfiere y sube el comprobante, o envíalo por WhatsApp con tu código.`;
+    }
     $("#waPagar").href = wa(contactoPrincipal.telefono, "Hola, envío el comprobante de pago del Torneo en Parejas Sabotage. Mi código es: ");
   }
 
@@ -191,7 +201,7 @@
       : r.estado === "revision"
       ? `<li>Recibimos tu comprobante. La organización lo revisa y confirma tu cupo.</li><li>Guarda tu código para consultar el estado.</li>`
       : `<li>Tu cupo queda reservado por <b>${cfg.horas_reserva || 48} horas</b>.</li>
-         <li>${precio ? `Paga <b>${precio}</b>${cfg.pago_numero ? ` a ${esc(cfg.pago_metodo || "Nequi")} <b>${esc(fmtTel(cfg.pago_numero))}</b>` : ""}.` : "El valor de la inscripción se anunciará pronto; te avisamos por WhatsApp."}</li>
+         <li>${precio ? `Paga <b>${precio}</b>${cfg.pago_numero ? ` a ${esc(cfg.pago_metodo || "Nequi")} <b>${esc(fmtTel(cfg.pago_numero))}</b>` : ""}${(window.SABOTAGE_CONFIG.pagoBreB || {}).llave ? ` o a la llave Bre-B <b>${esc(window.SABOTAGE_CONFIG.pagoBreB.llave)}</b>` : ""}.` :"El valor de la inscripción se anunciará pronto; te avisamos por WhatsApp."}</li>
          <li>Sube el comprobante con tu código en la sección «¿Ya se inscribieron?» o envíalo por WhatsApp.</li>`;
     const texto = `Hola, inscribí la pareja "${d.nombre_equipo.trim()}" (${d.club.trim()}) al Torneo en Parejas Sabotage. Código: ${r.codigo}.`;
     $("#formZone").innerHTML = `
