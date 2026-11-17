@@ -71,5 +71,9 @@ window.SABOTAGE_CONFIG = {
     "Benfica", "Porto", "Sporting CP", "Ajax", "PSV", "Galatasaray", "Fenerbahçe",
     "Al Nassr", "Al Hilal", "Inter Miami", "Boca Juniors", "River Plate", "Flamengo",
     "Palmeiras",
+    // Selecciones
+    "Brasil", "Argentina", "Colombia", "Francia", "España", "Inglaterra", "Alemania",
+    "Portugal", "Países Bajos", "Italia", "Bélgica", "Croacia", "Uruguay", "México",
+    "Estados Unidos", "Marruecos", "Japón",
   ],
 };

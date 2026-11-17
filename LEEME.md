@@ -13,8 +13,8 @@
 2. Si sube el comprobante → queda **En revisión**.
 3. Un organizador revisa en `admin.html` y pulsa **✓ Pago confirmado** → queda **Confirmada**.
 4. Cupos ocupados = reservadas + en revisión + confirmadas. Si están llenos, la inscripción entra a **Lista de espera**.
-5. Si una reserva pasa las *horas de reserva* sin pagar, el panel la marca en rojo. **Anular / liberar cupo** suelta el cupo y el club, y **Darle cupo** sube a alguien de la lista de espera.
-6. Ningún club ni nombre de equipo se repite (lo valida la base de datos).
+5. Si una reserva pasa las *horas de reserva* sin pagar, el panel la marca en rojo. **Anular / liberar cupo** suelta el cupo, y **Darle cupo** sube a alguien de la lista de espera.
+6. El nombre del equipo no se repite (lo valida la base de datos). Los clubes y selecciones sí se pueden repetir; solo se rechaza el Equipo de Estrellas.
 
 ## Estado actual
 

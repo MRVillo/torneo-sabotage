@@ -161,7 +161,7 @@
           if (ocupados >= cfg.cupos && !confirm("No hay cupos libres. ¿Darle cupo igual (se pasa del límite)?")) return;
           await S.actualizar(p.id, { estado: p.comprobante_path ? "revision" : "pendiente", created_at: new Date().toISOString() }); toast("Pasó de lista de espera a cupo reservado"); break;
         case "anular":
-          if (!confirm(`¿Anular la inscripción de "${p.nombre_equipo}"? Se libera su cupo y su club.`)) return;
+          if (!confirm(`¿Anular la inscripción de "${p.nombre_equipo}"? Se libera su cupo.`)) return;
           await S.actualizar(p.id, { estado: "rechazado" }); toast("Inscripción anulada, cupo liberado"); break;
         case "restaurar":
           await S.actualizar(p.id, { estado: ocupados >= cfg.cupos ? "espera" : "pendiente" }); break;

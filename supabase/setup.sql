@@ -38,8 +38,8 @@ create table if not exists public.parejas (
   created_at timestamptz not null default now(),
   pagado_at timestamptz
 );
--- Un club y un nombre no se repiten entre parejas activas
-create unique index if not exists parejas_club_unico on public.parejas (lower(club)) where estado <> 'rechazado';
+-- El nombre del equipo no se repite entre parejas activas
+drop index if exists public.parejas_club_unico; -- los clubes y selecciones se pueden repetir
 create unique index if not exists parejas_nombre_unico on public.parejas (lower(nombre_equipo)) where estado <> 'rechazado';
 
 -- ---------- Administradores (correos autorizados para el panel) ----------
@@ -98,8 +98,9 @@ begin
   if cfg.fecha_limite is not null and (now() at time zone 'America/Bogota')::date > cfg.fecha_limite then
     raise exception 'Ya pasó la fecha límite de inscripción.';
   end if;
-  if exists (select 1 from public.parejas where estado <> 'rechazado' and lower(club) = lower(trim(p_club))) then
-    raise exception 'El club "%" ya lo eligió otra pareja. Escoge otro.', trim(p_club);
+  -- Clubes y selecciones se pueden repetir; solo se prohíbe el Equipo de Estrellas
+  if lower(p_club) like '%estrella%' or lower(p_club) like '%all%star%' then
+    raise exception 'El Equipo de Estrellas no está permitido. Elige un club o una selección.';
   end if;
   if exists (select 1 from public.parejas where estado <> 'rechazado' and lower(nombre_equipo) = lower(trim(p_nombre))) then
     raise exception 'Ya hay una pareja con ese nombre.';

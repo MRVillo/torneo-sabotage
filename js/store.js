@@ -38,7 +38,8 @@
     const nombre = (d.nombre_equipo || "").trim();
     const club = (d.club || "").trim();
     if (nombre.length < 2 || nombre.length > 40) throw new Error("El nombre del equipo debe tener entre 2 y 40 caracteres.");
-    if (club.length < 2 || club.length > 40) throw new Error("Escribe el club que van a usar.");
+    if (club.length < 2 || club.length > 40) throw new Error("Escribe el club o la selección favorita.");
+    if (/estrella|all.?star/i.test(club)) throw new Error("El Equipo de Estrellas no está permitido. Elige un club o una selección.");
     if ((d.jugador1 || "").trim().length < 3 || (d.jugador2 || "").trim().length < 3) throw new Error("Escribe el nombre de los dos jugadores.");
     if (soloDigitos(d.telefono).length < 10) throw new Error("El WhatsApp debe tener 10 dígitos.");
   }
@@ -93,7 +94,6 @@
       if (!cfg.inscripciones_abiertas) throw new Error("Las inscripciones están cerradas.");
       if (cfg.fecha_limite && hoyBogota() > cfg.fecha_limite) throw new Error("Ya pasó la fecha límite de inscripción.");
       const vivos = s.parejas.filter((p) => p.estado !== "rechazado");
-      if (vivos.some((p) => norm(p.club) === norm(d.club))) throw new Error(`El club "${d.club}" ya lo eligió otra pareja. Escoge otro.`);
       if (vivos.some((p) => norm(p.nombre_equipo) === norm(d.nombre_equipo))) throw new Error("Ya hay una pareja con ese nombre.");
       const ocupados = s.parejas.filter((p) => ACTIVOS.includes(p.estado)).length;
       const foto = d.foto ? await aDataURL(await comprimir(d.foto, 360, 0.8, esTransparente(d.foto))) : null;
@@ -138,7 +138,6 @@
     async actualizar(id, patch) {
       const s = estado(); const p = s.parejas.find((x) => x.id === id);
       if (!p) throw new Error("No existe esa pareja.");
-      if (patch.club && s.parejas.some((x) => x.id !== id && x.estado !== "rechazado" && norm(x.club) === norm(patch.club))) throw new Error("Ese club ya lo tiene otra pareja.");
       Object.assign(p, patch); guardar(s); return p;
     },
     async eliminar(id) { const s = estado(); s.parejas = s.parejas.filter((x) => x.id !== id); guardar(s); },
@@ -205,7 +204,7 @@
       async listar() { const { data, error } = await sb.from("parejas").select("*").order("created_at"); if (error) err(error); return data; },
       async actualizar(id, patch) {
         const { data, error } = await sb.from("parejas").update(patch).eq("id", id).select().single();
-        if (error) err(error.code === "23505" ? { message: "Ese club o nombre ya lo tiene otra pareja." } : error);
+        if (error) err(error.code === "23505" ? { message: "Ya hay una pareja con ese nombre." } : error);
         return data;
       },
       async eliminar(id) {

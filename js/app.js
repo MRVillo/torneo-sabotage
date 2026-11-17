@@ -98,13 +98,8 @@
       banner.remove(); form.querySelectorAll("input,button").forEach((el) => (el.disabled = false));
     }
 
-    // clubes ocupados
-    const usados = inscritos.map((p) => p.club);
-    const t = $("#takenClubs");
-    t.hidden = !usados.length;
-    t.innerHTML = usados.length ? "Clubes ya elegidos: " + usados.map((c) => `<span>${esc(c)}</span>`).join("") : "";
-    const libresClub = C.clubesSugeridos.filter((c) => !usados.some((u) => u.toLowerCase() === c.toLowerCase()));
-    $("#clubes").innerHTML = libresClub.map((c) => `<option value="${esc(c)}">`).join("");
+    // sugerencias de clubes y selecciones (se pueden repetir)
+    $("#clubes").innerHTML = C.clubesSugeridos.map((c) => `<option value="${esc(c)}">`).join("");
   }
 
   /* ---------------- lista de parejas ---------------- */
