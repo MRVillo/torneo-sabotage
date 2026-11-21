@@ -17,7 +17,7 @@
     const publicado = cfg.torneo_publicado && partidos.length;
     $("#cerrado").hidden = !!publicado; $("#vivo").hidden = !publicado;
     $("#liveDot").classList.toggle("off", !publicado);
-    if (!publicado) { $("#faseTxt").textContent = "Domingo 29 de noviembre · 2:00 p.m."; return; }
+    if (!publicado) { $("#faseTxt").textContent = "Domingo 6 de diciembre · 2:00 p.m."; return; }
 
     const mapa = {}; parejas.forEach((p) => (mapa[p.id] = p));
     const grupos = partidos.filter((m) => m.fase === "grupos");
