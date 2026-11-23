@@ -17,9 +17,9 @@ window.SABOTAGE_CONFIG = {
 
   torneo: {
     nombre: "1er Torneo en Parejas",
-    fechaISO: "2026-12-06T14:00:00-05:00", // Domingo 6 dic, 2:00 p.m. (hora Colombia)
-    fechaTexto: "Domingo 6 de diciembre",
-    horaTexto: "2:00 p.m.",
+    fechaISO: "2026-11-28T16:00:00-05:00", // Sábado 28 nov, 4:00 p.m. (hora Colombia)
+    fechaTexto: "Sábado 28 de noviembre",
+    horaTexto: "4:00 p.m.",
     juego: "EA SPORTS FC 27",
     consola: "PlayStation 5",
   },
@@ -28,7 +28,7 @@ window.SABOTAGE_CONFIG = {
   configInicial: {
     precio: null,                 // valor por pareja en COP. null = "Por confirmar"
     cupos: 16,                    // número de parejas
-    fecha_limite: "2026-12-05",   // último día para inscribirse
+    fecha_limite: "2026-11-27",   // último día para inscribirse
     inscripciones_abiertas: true,
     horas_reserva: 48,            // horas que se guarda un cupo sin pagar
     direccion: "Sabotage Bar · Montería, Córdoba",
